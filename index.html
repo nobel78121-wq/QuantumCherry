@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quantum Cherry — Landing Page</title>
+<title>Quantum Cherry — Video Frame</title>
 <style>
   body {
     margin:0;
@@ -15,28 +15,29 @@
     align-items:center;
     justify-content:flex-start;
     min-height:100vh;
-    overflow-x:hidden;
     padding-top:2rem;
+    overflow-x:hidden;
   }
 
   /* النص المتحرك أعلى الصفحة */
   .marquee {
-    font-size: clamp(28px,5vw,56px);
-    font-weight:700;
-    color:#ffdca6;
-    text-align:center;
-    display: inline-block;
-    margin-bottom: 1rem;
-    animation: wiggle 3s ease-in-out infinite;
-  }
+  font-size: clamp(28px,5vw,56px);
+  font-weight:700;
+  color:#ffdca6;
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 1rem;
+  animation: wiggle 3s ease-in-out infinite;
+}
 
-  @keyframes wiggle {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    25% { transform: translateX(-5px) rotate(-1deg); }
-    50% { transform: translateX(5px) rotate(1deg); }
-    75% { transform: translateX(-5px) rotate(-1deg); }
-  }
-
+@keyframes wiggle {
+  80%   { transform: translateX(0) rotate(0deg); }
+  80%  { transform: translateX(-5px) rotate(-1deg); }
+  80%  { transform: translateX(5px) rotate(1deg); }
+  80%  { transform: translateX(-5px) rotate(-1deg); }
+  80% { transform: translateX(0) rotate(0deg); }
+}
   .subtitle {
     font-size: clamp(12px,1.5vw,18px);
     color:#f7f1e6;
@@ -44,19 +45,48 @@
     margin-bottom:2rem;
   }
 
-  /* إطار النصوص الجانبية */
-  .info-container {
-    position: relative;
-    width: 80%;
-    max-width: 800px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(0,0,0,0.2);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    padding: 2rem;
+  /* إطار الفيديو مصغر */
+  .video-frame {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  margin-top: 6rem; /* أضف هذه السطر لإنزال الفيديو */
+}
+
+  /* الفيديو بالحجم الطبيعي داخل الإطار */
+  .video-frame video {
+    width: auto;        /* عرض طبيعي */
+    height: 120%;       /* يغطي ارتفاع الإطار */
+    max-width: 120%;
+    object-fit: contain; /* يحافظ على نسبته الأصلية */
+    display:block;
+    margin:0 auto;
+    background: transparent;
+  }
+
+  /* Overlay خفيف على الفيديو */
+  .video-frame .overlay {
+    position:absolute;
+    inset:0;
+    background: rgba(0,0,0,0.1); /* دمج مع الخلفية */
+    pointer-events:none;
+  }
+
+  /* نص على جانب الفيديو */
+  .for-sale-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    z-index: 60;
   }
 
   .for-sale {
@@ -67,12 +97,6 @@
     border-radius: 6px;
     font-size: clamp(12px,1.2vw,16px);
     margin-bottom: 6px;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
   }
 
   .contact {
@@ -82,12 +106,6 @@
     font-weight: 600;
     border-radius: 6px;
     font-size: clamp(12px,1.2vw,16px);
-    animation: fade 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes fade {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; }
   }
 
 </style>
@@ -99,11 +117,26 @@
 
   <p class="subtitle">Dive into quantum-cloud ideas — immersive demos, research, and visuals.</p>
 
-  <!-- إطار النصوص الجانبية -->
-  <div class="info-container">
-    <div class="for-sale">This domain is for sale</div>
-    <div class="contact">Contact Me</div>
+  <!-- إطار الفيديو -->
+  <div class="video-frame">
+    <video id="bg-video" autoplay muted loop playsinline preload="auto" poster="poster.jpg">
+      <source src="file:///C:/Users/pc/Downloads/kling_20250910_Image_to_Video_A_cinemati_2132_0.mp4" type="video/mp4">
+      <source src="video.webm" type="video/webm" />
+    </video>
+    <div class="overlay"></div>
+
+    <!-- نص “This domain is for sale” + Contact أسفله -->
+    <div class="for-sale-container">
+      <div class="for-sale">This domain is for sale</div>
+      <div class="contact">Contact Me</div>
+    </div>
   </div>
+
+<script>
+  // ضبط سرعة الفيديو لتبطيئه قليلاً
+  const video = document.getElementById('bg-video');
+  video.playbackRate = 0.7; // تبطيء بدرجتين تقريباً
+</script>
 
 </body>
 </html>
